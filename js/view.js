@@ -4,7 +4,7 @@ $(function () {
 		success: function (data) {
 			data.forEach(function (item){
 				var name = item.split(".")[0];
-				$("#playButtons").append("<button id='"+name+"'>"+name+"</button><br>");
+				$("#playButtons").append("<button class='btn btn-default' btn btn-default id='"+name+"'>"+name+"</button><br>");
 				$("#"+name).click(function(){
 					$.ajax({
 						url: "/playAudio/"+item,
