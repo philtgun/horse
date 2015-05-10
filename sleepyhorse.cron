@@ -1,0 +1,2 @@
+0  0  * * * pi amixer sset 'PCM' 0%
+0  10 * * * pi amixer sset 'PCM' 95%

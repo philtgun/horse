@@ -30,3 +30,6 @@ node_modules
 # Sublime files
 *.sublime-project
 *.sublime-workspace
+
+# Audio folder 
+audio

@@ -6,16 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Room 318: Horse</title>
 
-</head>
-<body>
-	<div class="container">
-		<h1>I am the horse!</h1>
-		<div id="playButtons"></div>
-	</div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
-	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
 	<!--[if lt IE 9]>
@@ -23,7 +16,33 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	<script src="js/view.js"></script>
+	<script type="text/javascript" src="js/bootstrap.file-input.js"></script>
 
+	<script type="text/javascript" src="js/view.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/view.css">
+
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center">I am the horse!</h1>
+		<div class="col-md-6">
+			<div>
+				<h3>Make a sound!</h3>
+				<div id="playButtons"></div>
+			</div>
+			<div>
+				<h3>What does the horse say?</h3>
+				<input type="text" id="sayText" placeholder="Doctoral denied!">
+				<input type="button" id="sayButton" class="btn btn-primary" value="Say it!">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<form id="uploadAudioForm" enctype="multipart/form-data" action="/uploadAudio" method="post">
+				<h3>Upload sound (mp3 or wav):</h3>
+				<input type="file" name="audioFile" accept="audio/*" data-filename-placement="inside">
+				<input type="submit" value="Upload" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
 </body>
 </html>
