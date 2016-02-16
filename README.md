@@ -7,27 +7,51 @@ RaspberryPi-powered multi-purpose horse
 * Plays welcome sound when someone comes in
 * Turns sound down for the night (0:00 ~ 10:00)
 
-# Running the horse
+Hardware used:
+* RaspberryPi B+
+* USB-powered speakers
+* 2 PIR motion sensors
+* Long 4-line wire
+* Horse mask, scarf, cowboy hat
 
-## Web interface:
+With slight modifications should work on any linux system, not tested on anything except Debian
+
+## Running the horse
+
+### Web interface:
 Requires node.js and
 * express
 * multer
 
-### Run:
-`node app.js`
+Dependencies:
+`npm install`
 
-## Horse welcome:
+Run:
+`node horse-web.js`
+
+### Horse welcome:
 Requires python 2.7.3+
 * RPi.GPIO
 * requests
 
-### Run:
+Dependencies:
+`sudo pip install -r requirements.txt`
+
+Run:
 `python horse-welcome.py`
 
-## Sleepy horse
-Put sleepyhorse.cron into /etc/cron.d
+### Install as services
+Put horseweb and horsewelcome files into /etc/init.d system folder and create runlevel symlinks:
+```
+sudo update-rc.d servicename defaults 
+```
 
-# Source code used:
+### Sleepy horse
+Puts your horse to sleep for nighttime so it will not make any sounds.
+
+Put sleepyhorse.cron into /etc/cron.d and restart crond
+
+## Source code used (credits to these guys):
 * [grevory/bootstrap-file-input](https://github.com/grevory/bootstrap-file-input)
 * [Speech Script by Dan Fountain](http://danfountain.com/2013/03/raspberry-pi-text-to-speech/)
+* [chovy/node-startup](https://github.com/chovy/node-startup)

@@ -1,0 +1,20 @@
+{
+  "name": "horse",
+  "version": "1.0.0",
+  "description": "It's a horse",
+  "main": "horse-web.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philtgun/horse.git"
+  },
+  "author": "Philip Tovstogan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/philtgun/horse/issues"
+  },
+  "homepage": "https://github.com/philtgun/horse#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "multer": "^1.1.0"
+  }
+}

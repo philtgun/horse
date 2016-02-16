@@ -14,8 +14,21 @@ app.get('/', function (req, res) {
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/css", express.static(__dirname + '/css'));
 
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './audio')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+
+var upload = multer({ storage: storage })
+
 // Configure multer for file uploads
-app.use(multer({ dest: './audio/',
+/*var upload = multer({
+	dest: './audio/',
 	rename: function (fieldname, filename) {
 		return filename;
 	},
@@ -25,7 +38,7 @@ app.use(multer({ dest: './audio/',
 	onFileUploadComplete: function (file) {
 		console.log(file.fieldname + ' uploaded to  ' + file.path);
 	}
-}));
+});*/
 
 // API
 
@@ -65,7 +78,7 @@ app.get('/playAudio/:file', function (req, res) {
 	});
 });
 
-app.post('/uploadAudio', function (req, res) {
+app.post('/uploadAudio', upload.single('audioFile'), function (req, res) {
 	console.log(req.files);
 	res.redirect("/");
 });
