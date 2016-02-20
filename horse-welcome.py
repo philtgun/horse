@@ -12,11 +12,11 @@ def decCount(i):
   if i > 0:
     i -= 1
 
-T_POLL = 0.2 
-T_INSIDE_ACTIVE = 20 
-T_WELCOME_DELAY = 3
-T_WELCOME_COOLDOWN = 60
-T_OUTSIDE_INACTIVE = 5*60
+T_POLL = 0.5  # sec
+T_INSIDE_ACTIVE = 20  # sec
+T_WELCOME_DELAY = 2  # sec
+T_WELCOME_COOLDOWN = 60  # 1 min
+T_OUTSIDE_INACTIVE = 300  # 5 min
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(14, GPIO.IN)
@@ -36,8 +36,8 @@ while True:
 
   # print "[DEBUG] outside: {}, inside: {}".format(isOut, isIn)
 
-  if isOut and not isOutBefore and countIn == 0:
-    print "Somebody's arrived"
+  if isOut and countOut == 0:
+    print "Somebody's arriving"
     countOut = T_INSIDE_ACTIVE / T_POLL
 
   if isIn and not isInBefore:
@@ -52,7 +52,7 @@ while True:
       print "Somebody's leaving! No hello for {} min".format(T_OUTSIDE_INACTIVE / 60)
       countIn = T_OUTSIDE_INACTIVE / T_POLL
 
-  time.sleep(0.2)
+  time.sleep(T_POLL)
 
   isInBefore = isIn
   isOutBefore = isOut
