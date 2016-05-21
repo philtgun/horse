@@ -31,10 +31,12 @@ $(function () {
 	$('#sayButton').click(function(){
 		var text = $('#sayText').val();
 		$.ajax({
-			url: "/sayText/"+text,
+			url: "/sayText",
+			contentType: "application/json",
+			data: JSON.stringify({text: text}),
 			method: 'POST',
 			success: function (data) {
-				console.log('Say AJAX success');
+				console.log(data);
 			},
 			error: function (data) {
 				console.log(data);
@@ -46,5 +48,31 @@ $(function () {
 	    if(event.keyCode == 13) {
 	        $("#sayButton").click();
 	    }
+	});
+
+	$('#muteButton').click(function(){
+		$.ajax({
+			url: '/tempMute',
+			method: 'GET',
+			success: function (data) {
+				console.log(data);
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		})
+	});
+
+	$('#stopButton').click(function(){
+		$.ajax({
+			url: '/stopAudio',
+			method: 'GET',
+			success: function (data) {
+				console.log(data);
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		});
 	});
 });

@@ -1,9 +1,11 @@
 var express = require('express');
+var bodyParser = require('body-parser')
 var multer = require('multer');
 var fs = require('fs');
 var proc = require('child_process');
 
 var app = express();
+app.use(bodyParser.json());
 
 // Primary page
 app.get('/', function (req, res) {
@@ -13,7 +15,7 @@ app.get('/', function (req, res) {
 // Resources
 app.use("/js", express.static(__dirname + '/js'));
 app.use("/css", express.static(__dirname + '/css'));
-
+app.use("/icons", express.static(__dirname + '/icons'));
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -25,20 +27,6 @@ var storage = multer.diskStorage({
 })
 
 var upload = multer({ storage: storage })
-
-// Configure multer for file uploads
-/*var upload = multer({
-	dest: './audio/',
-	rename: function (fieldname, filename) {
-		return filename;
-	},
-	onFileUploadStart: function (file) {
-		console.log(file.originalname + ' is starting ...');
-	},
-	onFileUploadComplete: function (file) {
-		console.log(file.fieldname + ' uploaded to  ' + file.path);
-	}
-});*/
 
 // API
 
@@ -78,15 +66,36 @@ app.get('/playAudio/:file', function (req, res) {
 	});
 });
 
+app.get('/stopAudio', function (req, res) {
+	var processes = {
+		'aplay': false,
+		'mpg123': false
+	}
+	var sendResponse = function (name) {
+		processes[name] = true
+		for(var item in processes) {
+			if(!processes[item])
+				return
+		} 
+		res.send('Stopped audio')
+	}
+	Object.keys(processes).forEach(function (item){
+		proc.exec('killall ' + item, function (error, stdout, stderr) {
+			console.log('Killed ' + item);
+			sendResponse(item);
+		});
+	});
+});
+
 app.post('/uploadAudio', upload.single('audioFile'), function (req, res) {
 	console.log(req.files);
 	res.redirect("/");
 });
 
-app.post('/sayText/:text', function (req, res) {
-	var text = req.params.text;
-	console.log(text);
-	proc.exec('./horsesay '+text, function (error, stdout, stderr) {
+app.post('/sayText', function (req, res) {
+	console.log(req.body);
+	var text = req.body['text'];
+	proc.exec('./horse-say "'+text+'"', function (error, stdout, stderr) {
 		if(error) {
 			console.log(stderr);
 			res.send(error);
@@ -96,6 +105,25 @@ app.post('/sayText/:text', function (req, res) {
 	});
 });
 
+app.get('/tempMute', function (req, res) {
+	var date = new Date();
+	if(date.getHours() >= 0 && date.getHours() <= 10) {
+		res.send('Horse is already sleeping')
+		return
+	}
+	console.log('Muting')
+	var setVolume = function (level) {
+		proc.exec("amixer sset 'PCM' "+level+"%", function (error, stdout, stderr) {
+			console.log(stderr)
+		});
+	}
+	setVolume(0);
+	setTimeout(function () {
+		console.log('Unmuting')
+		setVolume(95);
+	}, 30000);
+	res.send('Muted for 30 secs')
+})
 
 // Run server
 var server = app.listen(3000, function () {
