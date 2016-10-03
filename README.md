@@ -16,6 +16,12 @@ Hardware used:
 
 With slight modifications should work on any linux system, not tested on anything except Debian
 
+## Requirements
+
+```
+sudo apt-get install mpg123
+```
+
 ## Running the horse
 
 ### Web interface:
