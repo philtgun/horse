@@ -47,9 +47,19 @@ Run:
 `python horse-welcome.py`
 
 ### Install as services
+
+* **init.d**:
+
 Put horseweb and horsewelcome files into /etc/init.d system folder and create runlevel symlinks:
 ```
+cp etc/init.d/* /etc/init.d/
 sudo update-rc.d servicename defaults 
+```
+
+* **systemd**:
+```
+cp etc/systemd/system/* /etc/systemd/system/
+sudo systemctl daemon-reload
 ```
 
 ### Sleepy horse
