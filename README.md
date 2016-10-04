@@ -47,9 +47,19 @@ Run:
 `python horse-welcome.py`
 
 ### Install as services
-Put horseweb and horsewelcome files into /etc/init.d system folder and create runlevel symlinks:
+
+* **init.d**:
 ```
+# Put horseweb and horsewelcome files into /etc/init.d system folder
+cp etc/init.d/* /etc/init.d/			
+# create runlevel symlinks:
 sudo update-rc.d servicename defaults 
+```
+
+* **systemd**:
+```
+cp etc/systemd/system/* /etc/systemd/system/
+sudo systemctl daemon-reload
 ```
 
 ### Config file
@@ -64,6 +74,7 @@ Available config options:
 ```
 
 ### ~~(deprecated) Sleepy horse~~
+
 Puts your horse to sleep for nighttime so it will not make any sounds.
 
 Put sleepyhorse.cron into /etc/cron.d and restart crond
