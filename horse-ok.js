@@ -1,6 +1,27 @@
 var record = require('node-record-lpcm16');
 var snowboy = require('snowboy');
 var proc = require('child_process');
+var moment = require('moment');
+var config = require('config');
+
+
+var SLEEPY_TIME = null
+
+// Functions
+function readConfig(){
+  if(config.has('sleepy_time')){
+    SLEEPY_TIME = config.get('sleepy_time')
+  }
+  else SLEEPY_TIME = [0, 9]
+}
+
+function isSleepyTime(){
+  hours = moment().hours()
+  return hours >= SLEEPY_TIME[0] && hours < SLEEPY_TIME[1]
+}
+
+// Start detector
+readConfig()
 
 var models = new snowboy.Models();
 
@@ -42,6 +63,11 @@ detector.on('error', function () {
 
 detector.on('hotword', function (index, hotword) {
   console.log('hotword', index, hotword);
+  
+  if(isSleepyTime()){
+    return
+  }
+
   proc.exec('aplay audio/yeah.wav')
 });
 
