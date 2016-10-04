@@ -42,7 +42,7 @@ detector.on('error', function () {
 
 detector.on('hotword', function (index, hotword) {
   console.log('hotword', index, hotword);
-  proc.exec('aplay ~/horse/audio/yeah.wav')
+  proc.exec('aplay audio/yeah.wav')
 });
 
 var mic = record.start({
