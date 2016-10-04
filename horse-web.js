@@ -35,7 +35,7 @@ var SLEEPY_TIME = null
 // Functions
 function readConfig(){
 	if(config.has('sleepy_time')){
-		config.get('sleepy_time')
+		SLEEPY_TIME = config.get('sleepy_time')
 	}
 	else SLEEPY_TIME = [0, 9]
 }
