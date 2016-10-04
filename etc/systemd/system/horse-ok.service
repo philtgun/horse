@@ -1,0 +1,17 @@
+[Unit]
+Description=Multi-purpose horse voice control interface
+After=network.target noip.service 
+
+[Service]
+User=pi
+Restart=always
+#RestartSec=10     
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=horse-ok
+WorkingDirectory=/home/pi/horse
+ExecStart=/usr/bin/node horse-ok.js
+Environment=NODE_ENV=production PORT=3001
+
+[Install]
+WantedBy=multi-user.target
