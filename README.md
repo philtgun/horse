@@ -52,7 +52,18 @@ Put horseweb and horsewelcome files into /etc/init.d system folder and create ru
 sudo update-rc.d servicename defaults 
 ```
 
-### Sleepy horse
+### Config file
+
+`horse-web` reads config files from `./config` directory (see [node-config](https://github.com/lorenwest/node-config) for reference)
+
+Available config options:
+```
+{
+	"sleepy_time": [0, 9]	// defines sleepy time span in hours (e.g. from 0:00 until 9:00)
+}
+```
+
+### ~~(deprecated) Sleepy horse~~
 Puts your horse to sleep for nighttime so it will not make any sounds.
 
 Put sleepyhorse.cron into /etc/cron.d and restart crond

@@ -3,6 +3,8 @@ var bodyParser = require('body-parser')
 var multer = require('multer');
 var fs = require('fs');
 var proc = require('child_process');
+var moment = require('moment');
+var config = require('config');
 
 var app = express();
 app.use(bodyParser.json());
@@ -28,6 +30,21 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
+var SLEEPY_TIME = null
+
+// Functions
+function readConfig(){
+	if(config.has('sleepy_time')){
+		config.get('sleepy_time')
+	}
+	else SLEEPY_TIME = [0, 9]
+}
+
+function isSleepyTime(){
+	hours = moment().hours()
+	return hours >= SLEEPY_TIME[0] && hours < SLEEPY_TIME[1]
+}
+
 // API
 
 // getAudioList: get list of audio files in 'audio' directory
@@ -44,6 +61,12 @@ app.get('/getAudioList', function (req, res) {
 
 // playAudio/filename: play filename
 app.get('/playAudio/:file', function (req, res) {
+	if(isSleepyTime()){
+		res.send("Shhh... It's sleepy time")
+		console.log("sleepy time")
+		return;
+	}
+
 	var file = req.params.file;
 	var cmd = '';
 	
@@ -94,6 +117,13 @@ app.post('/uploadAudio', upload.single('audioFile'), function (req, res) {
 
 app.post('/sayText', function (req, res) {
 	console.log(req.body);
+
+	if(isSleepyTime()){
+		res.send("Shhh... It's sleepy time")
+		console.log("sleepy time")
+		return;
+	}
+
 	var text = req.body['text'];
 	proc.exec('./horse-say "'+text+'"', function (error, stdout, stderr) {
 		if(error) {
@@ -126,6 +156,8 @@ app.get('/tempMute', function (req, res) {
 })
 
 // Run server
+readConfig()
+
 var server = app.listen(3000, function () {
 
   var host = server.address().address;

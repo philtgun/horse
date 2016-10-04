@@ -15,7 +15,9 @@
   "homepage": "https://github.com/philtgun/horse#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "config": "^1.21.0",
     "express": "^4.13.4",
+    "moment": "^2.15.1",
     "multer": "^1.1.0"
   }
 }
