@@ -63,13 +63,15 @@ function matchTriggerToAction(trigger){
    actions = null
    try{
       actions = HOTWORDS[trigger]["actions"]
-   } catch(e){
-      actions = HOTWORDS["*"]["actions"]
-      trigger = "*"
+   } finally {
+      if (actions == null){
+         actions = HOTWORDS["*"]["actions"]
+         trigger = "*"
+      }
    }
    
    for(var i=0; i<actions.length; i++){
-      processAction(actions[i]);
+      processAction(trigger, i, actions[i]);
    }
 }
 
