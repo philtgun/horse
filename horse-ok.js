@@ -117,8 +117,6 @@ function doAction(action){
 function loadModels(){
    var models = new snowboy.Models();
 
-   console.log(HOTWORDS)
-
    for(var hotword in HOTWORDS){
       if(!HOTWORDS.hasOwnProperty(hotword)){
          continue
