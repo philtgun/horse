@@ -31,5 +31,7 @@
 		}
 	},
 	"hotwords_audio_gain": 1.0,
-	"hotwords_silence_threshold": 0.5
+	"hotwords_silence_threshold": 0.5,
+	
+	"verbose": true
 }

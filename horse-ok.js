@@ -5,6 +5,8 @@ var moment = require('moment');
 var config = require('config');
 
 
+var VERBOSE = false
+
 var SLEEPY_TIME = null
 var HOTWORDS = null
 var HOTWORDS_AUDIO_GAIN = 1.0
@@ -21,6 +23,8 @@ function getConfigProp(prop, def){
 }
 
 function readConfig(){
+   VERBOSE = getConfigProp('verbose', false)
+
    SLEEPY_TIME = getConfigProp('sleepy_time', [0, 9]);
    HOTWORDS = getConfigProp('hotwords', {
       "*": {
@@ -146,11 +150,11 @@ var detector = new snowboy.Detector({
 });
 
 detector.on('silence', function () {
-   //console.log('silence');
+   if(VERBOSE) console.log('silence');
 });
 
 detector.on('sound', function () {
-   //console.log('sound');
+   if(VERBOSE) console.log('sound');
 });
 
 detector.on('error', function () {
@@ -164,7 +168,7 @@ detector.on('hotword', function (index, hotword) {
 
 var mic = record.start({
    threshold: HOTWORDS_SILENCE_THRESHOLD,
-   verbose: false
+   verbose: VERBOSE
 });
 
 mic.pipe(detector);
