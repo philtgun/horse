@@ -5,10 +5,7 @@ After=network.target noip.service
 [Service]
 User=pi
 Restart=always
-#RestartSec=10     
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=horse-ok
+#RestartSec=10
 WorkingDirectory=/home/pi/horse
 ExecStart=/usr/bin/node horse-ok.js
 Environment=NODE_ENV=production PORT=3001
