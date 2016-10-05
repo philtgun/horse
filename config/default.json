@@ -1,3 +1,35 @@
 {
-	"sleepy_time": [0, 9]
+	"sleepy_time": [0, 9],
+	"hotwords": {
+		"alexa": {
+			"model":{
+				"file": "resources/alexa.umdl",
+	   		"sensitivity": "0.5",
+	   		"hotwords" : "alexa"
+			}
+		},
+		"yeah": {
+			"model":{
+				"file": "resources/yeah.pmdl",
+	   		"sensitivity": "0.5",
+	   		"hotwords" : "yeah"
+			}
+		},
+		"da_kon": {
+			"model":{
+				"file": "resources/da_kon.umdl",
+	   		"sensitivity": "0.5",
+	   		"hotwords" : "da_kon"
+			}
+		},
+		"*": {
+			"actions": [{
+				"action": "playAudioFile",
+				"payload": "audio/yeah.wav",
+				"cooldown": 3000
+			}]
+		}
+	},
+	"hotwords_audio_gain": 1.0,
+	"hotwords_silence_threshold": 0.5
 }

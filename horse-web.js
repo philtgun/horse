@@ -34,16 +34,34 @@ var upload = multer({ storage: storage })
 var SLEEPY_TIME = null
 
 // Functions
+function getConfigProp(prop, def){
+   if(!config.has(prop)){
+      return def
+   }
+   return config.get(prop)
+}
+
 function readConfig(){
-	if(config.has('sleepy_time')){
-		SLEEPY_TIME = config.get('sleepy_time')
-	}
-	else SLEEPY_TIME = [0, 9]
+   SLEEPY_TIME = getConfigProp('sleepy_time', [0, 9])
 }
 
 function isSleepyTime(){
 	hours = moment().hours()
 	return hours >= SLEEPY_TIME[0] && hours < SLEEPY_TIME[1]
+}
+
+function playAudioFile(file, cb){
+	var cmd = '';
+	if(file.match(/.wav/)){
+		cmd = 'aplay';
+	} else if(file.match(/.mp3/)) {
+		cmd = 'mpg123';
+	} else {
+		cb("Unsupported audio format")
+		return	
+	}
+
+	proc.exec(cmd+' '+file, cb)
 }
 
 // API
@@ -69,18 +87,8 @@ app.get('/playAudio/:file', function (req, res) {
 	}
 
 	var file = req.params.file;
-	var cmd = '';
 	
-	if(file.match(/.wav/))	
-		cmd = 'aplay';
-	else if(file.match(/.mp3/))
-		cmd = 'mpg123';
-	else {
-		res.send("Unsupported audio format");
-		return;
-	}
-
-	proc.exec(cmd+' audio/'+file, function (error, stdout, stderr) {
+	playAudioFile('audio/'+file, function (error, stdout, stderr) {
 		if(error) {
 			console.log(stderr);
 			res.send(error);
