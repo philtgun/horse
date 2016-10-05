@@ -114,7 +114,11 @@ function doAction(action){
    }
 }
 
-function loadModels(models){
+function loadModels(){
+   var models = new snowboy.Models();
+
+   console.log(HOTWORDS)
+
    for(var hotword in HOTWORDS){
       if(!HOTWORDS.hasOwnProperty(hotword)){
          continue
@@ -122,17 +126,18 @@ function loadModels(models){
 
       m = HOTWORDS[hotword]['model']
       if(m != null){
-         models.add(m)
+         // config creates readonly properties and snowboy doesn't like it
+         m_copy = Object.assign({}, m)
+         models.add(m_copy)
       }
    }
+   return models
 }
 
 // Start detector
 readConfig();
 
-var models = new snowboy.Models();
-
-loadModels(models);
+var models = loadModels();
 
 var detector = new snowboy.Detector({
    resource: "resources/common.res",
